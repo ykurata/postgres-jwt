@@ -31,11 +31,12 @@ router.post('/register', (req, res) => {
           password: req.body.password
         })
         .then((user) => {
+          // create jwt payload
           const payload = {
             id: user.id,
             name: user.username
           };
-
+          // sign token
           jwt.sign(
             payload,
             keys.secretOrKey,
