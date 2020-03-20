@@ -31,7 +31,21 @@ router.post('/register', (req, res) => {
           password: req.body.password
         })
         .then((user) => {
-          res.status(200).json(user);
+          const payload = {
+            id: user.id,
+            name: user.username
+          };
+
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            {
+              expiresIn: 31556926 // 1 year in seconds
+            },
+            (err, token) => {
+              res.json({ success: true, token: token});
+            }
+          )
         })
         .catch((err) => {
           console.log(err);
