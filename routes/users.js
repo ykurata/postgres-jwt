@@ -8,7 +8,7 @@ const keys = require("../config/keys");
 
 
 const validateRegisterInput = require("../validation/register");
-// const validateLoginInput = require("../validation/login");
+const validateLoginInput = require("../validation/login");
 
 
 // User register route
@@ -58,6 +58,13 @@ router.post('/register', (req, res) => {
 
 // User login route
 router.post('/login', (req, res) => {
+  // Form validation
+  const { errors, isValid } = validateLoginInput(req.body);
+  // Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   User
     .findOne({
       where: {
